@@ -8,37 +8,31 @@ import Go.Model exposing (Game, Action)
 
 view : Signal.Address Action -> Game -> Html
 view address game =
-    div [ class "board" ]
-        ((topRow game) ++ (middleRows game) ++ (bottomRow game))
-        -- , middleRows game
-        -- , bottomRow game
+    div [ class "board" ] <| boardCells game
 
-topRow : Game -> List Html
-topRow game = [ cell "top-left" ] ++ topMiddle game ++ [ cell "top-right" ]
+boardCells : Game -> List Html
+boardCells game = row game "top" ++ middleRows game ++ row game "bottom"
 
-bottomRow : Game -> List Html
-bottomRow game = [ cell "bottom-left" ] ++ bottomMiddle game ++ [ cell "bottom-right" ]
+row : Game -> String -> List Html
+row game classPrefix =
+    let middleRowClassName = case classPrefix of
+                                 "middle" -> Nothing
+                                 x -> Just x
+    in
+        [ cell <| classPrefix ++ "-left" ]
+          ++ middleCells game middleRowClassName
+          ++ [ cell <| classPrefix ++ "-right" ]
 
-topMiddle : Game -> List Html
-topMiddle game = List.repeat (game.board.dimensions - 2) (cell "top-middle")
-
-bottomMiddle : Game -> List Html
-bottomMiddle game = List.repeat (game.board.dimensions - 2) (cell "bottom-middle")
+middleCells : Game -> Maybe String -> List Html
+middleCells game mprefix =
+    let className = case mprefix of
+                        Just prefix -> prefix ++ "-middle"
+                        Nothing -> "middle"
+    in
+        List.repeat (game.board.dimensions - 2) (cell className)
 
 middleRows : Game -> List Html
-middleRows game = List.concat <| List.repeat (game.board.dimensions - 2) (middleRow game)
-
-middleRow : Game -> List Html
-middleRow game = [ cell "middle-left" ] ++ middle game ++ [ cell "middle-right" ]
-
-middle : Game -> List Html
-middle game = List.repeat (game.board.dimensions - 2) (cell "middle")
+middleRows game = List.concat <| List.repeat (game.board.dimensions - 2) (row game "middle")
 
 cell : String -> Html
-cell className = div [ class className ] []
-
--- middleRows : Game -> Html
--- middleRows game = div [] []
---
--- bottomRow : Game -> Html
--- bottomRow game = div [] []
+cell className = div [ class <| "cell " ++ className ] []
