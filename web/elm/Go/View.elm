@@ -32,14 +32,17 @@ tiles {dimensions} = (dimensions ^ 2) - 1
 cell : Signal.Address Action -> Game -> Int -> Html
 cell address game i =
   let className = prefix i ++ "-" ++ suffix i
+      events = if hasAnyStone game i then
+                 []
+               else
+                 [onClick address <| PlaceStone i]
   in
-    div [ classList [ ("cell", True)
+    div ([ classList [ ("cell", True)
                     , (className, True)
                     , ("white", hasStone White game i)
                     , ("black", hasStone Black game i)
                     ]
-        , onClick address <| PlaceStone i
-        ]
+        ] ++ events)
         []
 
 suffix : Int -> String
@@ -59,6 +62,9 @@ prefix i =
     "bottom"
   else
     "middle"
+
+hasAnyStone : Game -> Int -> Bool
+hasAnyStone game i = hasStone White game i || hasStone Black game i
 
 hasStone : CurrentPlayer -> Game -> Int -> Bool
 hasStone currentPlayer game i =
