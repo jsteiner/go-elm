@@ -1,9 +1,12 @@
 module Go.Model where
 
+type CurrentPlayer = Black | White
+
 type alias Game =
     { board: Board
     , black: Player
     , white: Player
+    , currentPlayer: CurrentPlayer
     }
 
 type alias Board =
@@ -26,4 +29,5 @@ initialGame =
     { board = { dimensions = 9 }
     , black = { stones = [] }
     , white = { stones = [] }
+    , currentPlayer = Black
     }

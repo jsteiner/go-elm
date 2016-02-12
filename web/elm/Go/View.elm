@@ -26,7 +26,11 @@ cell : Signal.Address Action -> Game -> Int -> Html
 cell address game i =
     let className = prefix i ++ "-" ++ suffix i
     in
-        div [ classList [("cell", True), (className, True), ("black", isBlack game i)]
+        div [ classList [ ("cell", True)
+                        , (className, True)
+                        , ("white", isWhite game i)
+                        , ("black", isBlack game i)
+                        ]
             , onClick address <| PlaceStone i
             ]
             []
@@ -51,3 +55,6 @@ prefix i =
 
 isBlack : Game -> Int -> Bool
 isBlack {black} i = List.member (Stone i) black.stones
+
+isWhite : Game -> Int -> Bool
+isWhite {white} i = List.member (Stone i) white.stones

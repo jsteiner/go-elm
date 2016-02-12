@@ -27,6 +27,18 @@
   }
 }
 
+.white {
+  &::after {
+    width: inherit;
+    height: inherit;
+    transform: scale(.8);
+    background-color: white;
+    border-radius: 70px;
+    content: "";
+    display: block;
+  }
+}
+
 .top-left { background: url("/images/tiles/top-left.png") no-repeat center center; background-size: contain; }
 .top-right { background: url("/images/tiles/top-right.png") no-repeat center center; background-size: contain; }
 .top-middle { background: url("/images/tiles/top-middle.png") no-repeat center center; background-size: contain; }
