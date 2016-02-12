@@ -56,7 +56,7 @@ exports.config = {
     },
     elmBrunch: {
       elmFolder: "web/elm",
-      mainModules: ["App.elm"],
+      mainModules: ["Go.elm"],
       outputFolder: "../static/vendor"
     }
   },
