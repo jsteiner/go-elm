@@ -17,10 +17,6 @@ defmodule Go.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/games", GameController, only: [:create, :show]
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Go do
-  #   pipe_through :api
-  # end
 end
