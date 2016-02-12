@@ -10,8 +10,8 @@ import Go.Update exposing (update)
 
 main : Signal Html.Html
 main =
-    StartApp.start
-        { model = initialGame
-        , view = view
-        , update = update
-        }
+  StartApp.start
+    { model = initialGame
+    , view = view
+    , update = update
+    }
