@@ -15,12 +15,24 @@
   margin: 0;
 }
 
+.black {
+  &::after {
+    width: inherit;
+    height: inherit;
+    transform: scale(.8);
+    background-color: black;
+    border-radius: 70px;
+    content: "";
+    display: block;
+  }
+}
+
 .top-left { background: url("/images/tiles/top-left.png") no-repeat center center; background-size: contain; }
 .top-right { background: url("/images/tiles/top-right.png") no-repeat center center; background-size: contain; }
 .top-middle { background: url("/images/tiles/top-middle.png") no-repeat center center; background-size: contain; }
 .middle-left { background: url("/images/tiles/middle-left.png") no-repeat center center; background-size: contain; }
 .middle-right { background: url("/images/tiles/middle-right.png") no-repeat center center; background-size: contain; }
-.middle { background: url("/images/tiles/middle.png") no-repeat center center; background-size: contain; }
+.middle-middle { background: url("/images/tiles/middle.png") no-repeat center center; background-size: contain; }
 .bottom-left { background: url("/images/tiles/bottom-left.png") no-repeat center center; background-size: contain; }
 .bottom-right { background: url("/images/tiles/bottom-right.png") no-repeat center center; background-size: contain; }
 .bottom-middle { background: url("/images/tiles/bottom-middle.png") no-repeat center center; background-size: contain; }

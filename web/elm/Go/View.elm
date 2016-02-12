@@ -2,37 +2,52 @@ module Go.View where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 
-import Go.Model exposing (Game, Action)
+import Go.Model exposing (..)
 
 
 view : Signal.Address Action -> Game -> Html
 view address game =
-    div [ class "board" ] <| boardCells game
+    div []
+      [ div [ class "board" ] <| boardCells address game
+      ]
 
-boardCells : Game -> List Html
-boardCells game = row game "top" ++ middleRows game ++ row game "bottom"
-
-row : Game -> String -> List Html
-row game classPrefix =
-    let middleRowClassName = case classPrefix of
-                                 "middle" -> Nothing
-                                 x -> Just x
+boardCells : Signal.Address Action -> Game -> List Html
+boardCells address ({board} as game) =
+    let n = tiles board
     in
-        [ cell <| classPrefix ++ "-left" ]
-          ++ middleCells game middleRowClassName
-          ++ [ cell <| classPrefix ++ "-right" ]
+        List.map (cell address game) [0..n]
 
-middleCells : Game -> Maybe String -> List Html
-middleCells game mprefix =
-    let className = case mprefix of
-                        Just prefix -> prefix ++ "-middle"
-                        Nothing -> "middle"
+tiles : Board -> Int
+tiles {dimensions} = (dimensions ^ 2) - 1
+
+cell : Signal.Address Action -> Game -> Int -> Html
+cell address game i =
+    let className = prefix i ++ "-" ++ suffix i
     in
-        List.repeat (game.board.dimensions - 2) (cell className)
+        div [ classList [("cell", True), (className, True), ("black", isBlack game i)]
+            , onClick address <| PlaceStone i
+            ]
+            []
 
-middleRows : Game -> List Html
-middleRows game = List.concat <| List.repeat (game.board.dimensions - 2) (row game "middle")
+suffix : Int -> String
+suffix i =
+    if i % 9 == 0 then
+        "left"
+    else if i % 9 == 8 then
+        "right"
+    else
+        "middle"
 
-cell : String -> Html
-cell className = div [ class <| "cell " ++ className ] []
+prefix : Int -> String
+prefix i =
+    if i < 9 then
+        "top"
+    else if i > 71 then
+        "bottom"
+    else
+        "middle"
+
+isBlack : Game -> Int -> Bool
+isBlack {black} i = List.member (Stone i) black.stones

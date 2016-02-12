@@ -15,20 +15,15 @@ type alias Player =
     }
 
 type alias Stone =
-    { x: Int
-    , y: Int
+    { i: Int
     }
 
-type Action = Foo
+type Action = PlaceStone Int
 
 
 initialGame : Game
 initialGame =
-    let board = { dimensions = 9 }
-        black = { stones = [] }
-        white = { stones = [] }
-    in
-        { board = board
-        , black = black
-        , white = white
-        }
+    { board = { dimensions = 9 }
+    , black = { stones = [] }
+    , white = { stones = [] }
+    }
